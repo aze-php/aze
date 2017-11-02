@@ -1,0 +1,80 @@
+<!DOCTYPE>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+    <link>
+        <title>{% if title is defined %}{{ title }}{% else %}AZE php framework{% endif %}</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=8"/>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        {% for css in cssArray %}
+            <link type="text/css" rel="stylesheet" href="{{ css }}"/>
+        {% endfor %}
+        {% for js in jsArray %}
+            <script type="text/javascript" src="{{ js }}"></script>
+        {% endfor %}
+        {% for script in scriptArray %}
+        <script type="text/javascript">{{ script|raw }}</script>
+        {% endfor %}
+        <style>
+            body {
+                display: flex;
+                min-height: 100vh;
+                flex-direction: column;
+            }
+
+            main {
+                flex: 1 0 auto;
+            }
+        </style>
+        <style>{{ DumperCss() }}</style>
+        <script type="text/javascript">
+            {{ DumperJs() }}
+            $(document).ready(function(){
+                $("#debugContainer").modal();
+                $(".button-collapse").sideNav();
+            });
+        </script>
+    </head>
+    <body>
+        <header>
+            <nav class="blue accent-1">
+                <div class="nav-wrapper">
+                    <a href="#" class="brand-logo center">AZE</a>
+                    <a href="#" data-activates="mobile-demo" class="button-collapse">
+                        <i class="material-icons">menu</i>
+                    </a>
+                    <ul class="hide-on-med-and-down">
+                        <li>
+                            <a href="/">How to start</a>
+                        </li>
+                        <li><a href="/controller">Controller</a></li>
+                        <li><a href="/model">Model</a></li>
+                    </ul>
+                    <ul class="side-nav" id="mobile-demo">
+                        <li>
+                            <a href="/">How to start</a>
+                        </li>
+                        <li><a href="/controller">Controller</a></li>
+                        <li><a href="/model">Model</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <main>
+
+            <h1 class="center-align">Welcome on AZE</h1>
+            <div class="container">
+                <div class="row">
+                    <div id="content" class="col s12{if isset($fullPage) && !$fullPage} l10 offset-l1{/if}">
+                        {% if subTemplate is defined %}
+                            {{ include(subTemplate) }}
+                        {% endif %}
+                        <div class="push_float"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        {{ include('debug.html') }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.1/components/prism-php.js"></script>
+    </body>
+</html>

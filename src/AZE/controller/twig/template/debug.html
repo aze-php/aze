@@ -1,0 +1,155 @@
+<div class="modal" id="debugContainer" style="width:75% !important;">
+    <div class="modal-content">
+        <div class="row">
+            <div class="col s12">
+                <ul class="tabs">
+                    <li class="tab col s2"><a class="active" href="#debugReq">{{ queryList|length }} request</a></li>
+                    <li class="tab col s2"><a class="active" href="#debugClass">{{ classList|length }} class{% if
+                        classList|length >1 %}es{% endif %}</a></li>
+                    <li class="tab col s2"><a href="#debugVarDump">{{ dumpList|length }} Dump{%if dumpList|length > 1
+                        %}s{% endif %}</a></li>
+                    <li class="tab col s2"><a href="#debugGet">{{ parameter.get|length }} GET</a></li>
+                    <li class="tab col s2"><a href="#debugPost">{{ parameter.post|length }} POST</a></li>
+                    <li class="tab col s2"><a href="#debugCookie">{{ parameter.cookies|length }} COOKIE{% if
+                        parameter.cookies|length > 1 %}S{% endif %}</a></li>
+                </ul>
+            </div>
+            <div id="debugVarDump" class="col s12">
+                {% for k, request in dumpList %}
+                <div class="row">
+                    <div class="col s12">
+                        {{ request|dumper }}
+                    </div>
+                </div>
+                <div class="divider"></div>
+                {% endfor %}
+            </div>
+            <div id="debugClass" class="col s12">
+                <div class="row">
+                    <div class="col s12">{{ classList|dumper }}</div>
+                </div>
+            </div>
+            <div id="debugReq" class="col s12">
+                {% for k, request in queryList %}
+                <div class="row">
+                    <div class="col s12">
+                        {{ request|dumper }}
+                    </div>
+                </div>
+                <div class="divider"></div>
+                {% endfor %}
+            </div>
+            <div id="debugGet" class="col s12">
+                {% for k, request in parameter.get %}
+                <div class="row">
+                    <div class="col s12">
+                        <span class="key">{{ k }}</span>{{ request|dumper }}
+                    </div>
+                </div>
+                <div class="divider"></div>
+                {% endfor %}
+            </div>
+            <div id="debugPost" class="col s12">
+                {% for k, request in parameter.post %}
+                <div class="row">
+                    <div class="col s12">
+                        <span class="key">{{ k }}</span>{{ request|dumper }}
+                    </div>
+                </div>
+                <div class="divider"></div>
+                {% endfor %}
+            </div>
+            <div id="debugCookie" class="col s12">
+                {% for k, request in parameter.cookies %}
+                <div class="row">
+                    <div class="col s12">
+                        <span class="key">{{ k }}</span>{{ request|dumper }}
+                    </div>
+                </div>
+                <div class="divider"></div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="page-footer grey lighten-1">
+    <div class="row">
+        {% if loadedTime is defined %}
+        <div class="col s1">
+            <a class="modal-trigger" href="#debugContainer" title="Time of execution">
+                <i class="material-icons">timer</i>
+                {{ loadedTime }} s
+            </a>
+        </div>
+        {% endif %}
+        {% if loadedTime is defined %}
+        <div class="col s1">
+            {% set sum = 0 %}
+            {% for k, request in queryList %}
+            {% if request[2] is defined %}
+            {% set sum = sum+request[2] %}
+            {% endif %}
+            {% endfor %}
+            <a class="modal-trigger text" href="#debugContainer" title="SQL Time">
+                <i class="material-icons">timer</i>
+                {{ sum }} ms
+            </a>
+        </div>
+        {% endif %}
+        {% if loadedTime is defined %}
+        <div class="col s1">
+            <a class="modal-trigger text" href="#debugContainer" title="HTML generation">
+                <i class="material-icons">format_align_right</i>
+                {{ startTime|ellapsed }} s
+            </a>
+        </div>
+        {% endif %}
+        {% if queryList|length %}
+        <div class="col s1">
+            <a class="modal-trigger text" href="#debugContainer" title="SQL request">
+                <i class="material-icons">compare_arrows</i>{{ queryList|length }}
+            </a>
+        </div>
+        {% endif %}
+        {% if classList is defined %}
+        <div class="col s1">
+            <a class="modal-trigger text" href="#debugContainer" title="Classes">
+                <i class="material-icons">class</i>{{ classList|length }}
+            </a>
+        </div>
+        {% endif %}
+        {% if dumpList is defined %}
+        <div class="col s1">
+            <a class="modal-trigger text" href="#debugContainer" title="Dumps">
+                <i class="material-icons">info</i>{{ dumpList|length }}
+            </a>
+        </div>
+        {% endif %}
+        {% if parameter.get is defined %}
+        <div class="col s1">
+            <a class="modal-trigger text" href="#debugContainer" title="GET parameters">{{ parameter.get|length }} GET
+            </a>
+        </div>
+        {% endif %}
+        {% if parameter.post is defined %}
+        <div class="col s1">
+            <a class="modal-trigger text" href="#debugContainer" title="POST parameters">{{ parameter.post|length }}
+                POST
+            </a>
+        </div>
+        {% endif %}
+        {% if parameter.cookies is defined %}
+        <div class="col s2">
+            <a class="modal-trigger text" href="#debugContainer" title="Cookies">{{ parameter.cookies|length }}
+                COOKIES
+            </a>
+        </div>
+        {% endif %}
+        <div class="col s2 right-align">
+            <a class="modal-trigger text right-align" href="#debugContainer" title="Memory used">
+                Memory : {{ MemoryUsage() | FormatBytes }}
+            </a>
+        </div>
+    </div>
+</footer>

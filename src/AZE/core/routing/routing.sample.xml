@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes>
+    <any>
+        <path><![CDATA[/index.php]]></path>
+        <redirect><![CDATA[/page.php]]></redirect>
+    </any>
+    <any>
+        <path><![CDATA[/page.php]]></path>
+        <alias><![CDATA[/]]></alias>
+    </any>
+    <any>
+        <path><![CDATA[/]]></path>
+        <controller>
+            <name><![CDATA[Index]]></name>
+        </controller>
+    </any>
+    <post>
+        <path><![CDATA[/login/login]]></path>
+        <controller>
+            <name><![CDATA[Login]]></name>
+            <action><![CDATA[login]]></action>
+        </controller>
+    </post>
+    <get>
+        <path><![CDATA[/login/logout]]></path>
+        <controller>
+            <name><![CDATA[Login]]></name>
+            <action><![CDATA[login]]></action>
+        </controller>
+    </get>
+    <get>
+        <path><![CDATA[/login/{arg}]]></path>
+        <controller>
+            <name><![CDATA[Login]]></name>
+            <action><![CDATA[test]]></action>
+        </controller>
+    </get>
+</routes>

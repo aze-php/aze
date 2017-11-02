@@ -1,0 +1,83 @@
+<?php
+namespace AZE\core\configuration;
+
+class ConfigElement implements \IteratorAggregate
+{
+    const XML = 1;
+    const JSON = 2;
+
+    public $value = null;
+    public $children = null;
+
+    public function __construct($datas = array(), $type = null)
+    {
+        switch ($type) {
+            case self::XML:
+                $this->loadXml($datas);
+                break;
+            case self::JSON:
+                $this->loadJson($datas);
+                break;
+            default:
+                return;
+        }
+
+        return $this;
+    }
+
+    private function loadXml(\SimpleXMLElement $xml)
+    {
+        if ($xml->count()) {
+            $this->children = array();
+            foreach ($xml->children() as $child) {
+                $configElement = new self($child, self::XML);
+                $this->children[$child->getName()] = $configElement->getValue();
+            }
+        } else {
+            $this->value = $xml . '';
+        }
+
+        return $this;
+    }
+
+    private function loadJson($json)
+    {
+        if (is_array($json) && count($json)) {
+            $this->children = array();
+            foreach ($json as $key=>$node) {
+                $configElement = new self($node, self::JSON);
+                $this->children[$key] = $configElement->getValue();
+            }
+        } else {
+            $this->value = $json;
+        }
+
+        return $this;
+    }
+
+    public function merge(ConfigElement $newConfig)
+    {
+        foreach ($newConfig as $name=>$child) {
+            $this->children[$name] = $child;
+            $this->value = null;
+        }
+
+        return $this;
+    }
+
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->children);
+    }
+
+
+    public function getValue()
+    {
+        return !is_null($this->value) ? var_export($this->value,true)  : $this;
+    }
+
+    public function __get($attr)
+    {
+        return !is_null($this->children) && isset($this->children[$attr]) ? $this->children[$attr] : null;
+    }
+}
