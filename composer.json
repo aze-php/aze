@@ -1,5 +1,5 @@
 {
-  "name": "aze/aze",
+  "name": "aze-php/aze",
   "type": "library",
   "description": "The AZE PHP framework",
   "keywords": ["php", "framework"],
