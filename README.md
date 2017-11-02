@@ -6,7 +6,7 @@ aze-php/cli is a binary use to install and serve your aze application
 ```bash
 composer global require "aze-php/cli"
 ```
-[More about aze-php/cli](https://github.com/aze-php/cli">)
+[More about aze-php/cli](https://github.com/aze-php/cli)
 
 ## How to install
 ### With aze-php/cli
