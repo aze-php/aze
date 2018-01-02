@@ -1,31 +1,36 @@
 {
-  "name": "aze/aze",
-  "type": "library",
-  "description": "The AZE PHP framework",
-  "keywords": ["php", "framework"],
-  "homepage": "https://github.com/aze-php/aze",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "LE BOULC'H Brice",
-      "email": "airmanbzh@gmail.com",
-      "role": "Developer"
+    "name": "aze/aze",
+    "type": "library",
+    "description": "The AZE PHP framework",
+    "keywords": [
+        "php",
+        "framework"
+    ],
+    "homepage": "https://github.com/aze-php/aze",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "LE BOULC'H Brice",
+            "email": "airmanbzh@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "AZE\\": "src/AZE"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AZE\\": "tests/AZE"
+        }
+    },
+    "support": {
+        "issues": "https://github.com/aze-php/aze/issues"
+    },
+    "require": {
+        "php": ">=5.3.0",
+        "twig/twig": "*",
+        "monolog/monolog": "*"
     }
-  ],
-  "autoload": {
-    "psr-4": {
-		"AZE\\": "src/AZE"
-	}
-  },
-  "autoload-dev": {
-    "psr-4": { "AZE\\": "tests/AZE" }
-  },
-  "support": {
-    "issues": "https://github.com/aze-php/aze/issues"
-  },
-  "require": {
-    "php": ">=5.3.0",
-    "twig/twig": "*",
-    "monolog/monolog": "*"
-  }
 }

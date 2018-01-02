@@ -27,19 +27,6 @@ class CommonController extends Controller
         $this->twig->addJs('https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.1/components/prism-php.min.js');
         $this->twig->addJs('https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.1/components/prism-bash.min.js');
 
-//        $this->twig->addScript('$(document).ready(function(){$("#debugContainer").modal();$(".button-collapse").sideNav();});');
-
-        $objectTest = new \stdClass();
-
-        $objectTest->string = "String attribute";
-        $objectTest->int = 1234;
-        $objectTest->array = array("a", 2, "c", array("a"=>1,"b"=>2,"c"=>3,"d"=>4,"e"=>5));
-
-        \AZE\core\Debug::dump($objectTest);
-        \AZE\core\Debug::dump("aze");
-        \AZE\core\Debug::dump("1");
-        \AZE\core\Debug::dump(3);
-
         $this->addCallAfter(function($controller){
             $controller->twig->render('common.html');
         });

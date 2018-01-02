@@ -1,7 +1,10 @@
 <?php
 namespace AZE\twig;
 
+use AZE\core\Debug;
+use AZE\core\export\Export;
 use AZE\core\Profiler;
+use Monolog\Logger;
 
 class TwigExtension extends \Twig_Extension
 {
@@ -16,6 +19,7 @@ class TwigExtension extends \Twig_Extension
         return array(
             'ellapsed'=>new \Twig_Filter_Method($this, 'ellapsed'),
             'dumper'=>new \Twig_Filter_Method($this, 'dumper', $safe),
+            'getExports'=>new \Twig_Filter_Method($this, 'getExports', $safe),
             'FormatBytes'=>new \Twig_Filter_Method($this, 'formatBytes', $safe)
         );
     }
@@ -24,6 +28,8 @@ class TwigExtension extends \Twig_Extension
     {
         $safe = array('is_safe' => array('html'));
         return array(
+            new \Twig_SimpleFunction('GetLogLevels', array($this, 'getLogLevels'), $safe),
+            new \Twig_SimpleFunction('DebugIsActivated', array($this, 'debugIsActivated'), $safe),
             new \Twig_SimpleFunction('DumperCss', array($this, 'getDumperCss'), $safe),
             new \Twig_SimpleFunction('DumperJs', array($this, 'getDumperJs'), $safe),
             new \Twig_SimpleFunction('MemoryUsage', array($this, 'getMemoryUsage')),
@@ -34,8 +40,8 @@ class TwigExtension extends \Twig_Extension
     public function ellapsed($timestamp)
     {
         $return = 0;
-        if (is_integer($timestamp)) {
-            $return = time() - $timestamp;
+        if (is_numeric($timestamp)) {
+            $return = round(microtime(true) - $timestamp, 2);
         }
 
         return $return;
@@ -56,6 +62,21 @@ class TwigExtension extends \Twig_Extension
         $bytes /= (1 << (10 * $pow));
 
         return round($bytes, $precision) . ' ' . $units[$pow];
+    }
+
+    public function getExports($name)
+    {
+        return Export::get($name)->getDumps();
+    }
+
+    public function getLogLevels()
+    {
+        return Logger::getLevels();
+    }
+
+    public function debugIsActivated()
+    {
+        return Debug::isActivated();
     }
 
     public function getDumperCss()

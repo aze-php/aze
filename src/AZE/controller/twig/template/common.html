@@ -74,7 +74,9 @@
                 </div>
             </div>
         </main>
-        {{ include('debug.html') }}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.1/components/prism-php.js"></script>
+        {% if DebugIsActivated() %}
+            {{ include('debug.html') }}
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.1/components/prism-php.js"></script>
+        {% endif %}
     </body>
 </html>

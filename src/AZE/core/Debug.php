@@ -1,26 +1,19 @@
 <?php
 namespace AZE\core;
 
+use AZE\core\export\Export;
+
 class Debug
 {
-    private static $dump = array();
+    private static $activated = false;
 
-    public static function getDumps()
+    public static function isActivated()
     {
-        return self::$dump;
+        return self::$activated || false;
     }
 
-    public static function dump()
+    public static function activated($bool)
     {
-        $countArgs = func_num_args();
-
-        if ($countArgs > 0) {
-
-            $params = func_get_args();
-
-            foreach ($params as $param) {
-                self::$dump[] = $param;
-            }
-        }
+        self::$activated = $bool ? $bool != "false" : false;
     }
 }

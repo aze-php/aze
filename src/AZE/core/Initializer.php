@@ -1,8 +1,10 @@
 <?php
 namespace AZE\core;
 
+use AZE\log\Logger;
 use AZE\exception\InitializerException;
 use AZE\core\routing\Router;
+use Monolog\ErrorHandler;
 
 class Initializer
 {
@@ -42,6 +44,8 @@ class Initializer
 
             \AZE\Init\Init::initialize();
         }
+
+        Logger::get();
 
         return new Router();
     }

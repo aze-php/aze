@@ -1,10 +1,11 @@
 <?php
 namespace AZE\twig;
 
-
 use AZE\core\db\Db;
-use AZE\core\Debug;
-
+use AZE\core\export\Debug;
+use AZE\core\export\Error;
+use AZE\core\export\Info;
+use AZE\core\export\Warning;
 use AZE\core\Initializer;
 
 class TwigExtended
@@ -100,7 +101,6 @@ class TwigExtended
 
         $this->set('classList', get_declared_classes());
         $this->set('queryList', Db::instance()->queryList);
-        $this->set('dumpList', Debug::getDumps());
 
         $this->datas = $combine ? array_merge_recursive($this->datas, $datas) : array_merge($this->datas, $datas);
 
