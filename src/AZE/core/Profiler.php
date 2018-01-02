@@ -9,7 +9,7 @@ class Profiler
 
     private function __construct()
     {
-        declare(ticks=100);
+        declare(ticks=1000);
         register_tick_function(array(&$this, 'tick'));
     }
 

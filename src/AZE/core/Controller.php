@@ -39,7 +39,6 @@ abstract class Controller
             }
         }
 
-
         if (empty($this->action)){
             $this->main();
         } else if (method_exists($this, $this->action)) {
