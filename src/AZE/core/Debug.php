@@ -14,6 +14,6 @@ class Debug
 
     public static function activated($bool)
     {
-        self::$activated = $bool ? $bool != "false" : false;
+        self::$activated = $bool ? $bool !== "false" : false;
     }
 }
