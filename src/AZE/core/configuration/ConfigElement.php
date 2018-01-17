@@ -73,7 +73,7 @@ class ConfigElement implements \IteratorAggregate
 
     public function getValue()
     {
-        return !is_null($this->value) ? var_export($this->value,true)  : $this;
+        return !is_null($this->value) ? $this->value  : $this;
     }
 
     public function __get($attr)
