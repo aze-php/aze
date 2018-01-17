@@ -1,0 +1,26 @@
+language: php
+dist: trusty
+php:
+  - '5.4'
+  - '5.5'
+  - '5.6'
+  - '7.0'
+
+matrix:
+  include:
+    - php: 5.3
+      dist: precise
+
+before_script:
+  - export PATH=~/.composer/vendor/bin:$PATH
+  - composer global require phpmd/phpmd
+  - composer global require pdepend/pdepend
+  - composer global require phploc/phploc
+  - composer global require sebastian/phpcpd
+  - composer global show
+
+script:
+  - pdepend --summary-xml=pdepend-summary.xml ./src
+  - phpcpd ./src
+  - phpmd ./src text cleancode,codesize,unusedcode,naming
+  - phploc ./src
