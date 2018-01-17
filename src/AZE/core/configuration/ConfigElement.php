@@ -1,6 +1,8 @@
 <?php
 namespace AZE\core\configuration;
 
+use AZE\exception\ConfigException;
+
 class ConfigElement implements \IteratorAggregate
 {
     const XML = 1;
@@ -100,7 +102,14 @@ class ConfigElement implements \IteratorAggregate
 
     public function __get($attr)
     {
-        return !is_null($this->children) && isset($this->children[$attr]) ? $this->children[$attr] : null;
+        $return = null;
+        if (!is_null($this->children) && isset($this->children[$attr])) {
+            $return = $this->children[$attr];
+        } else {
+            throw new ConfigException('Unknow configuration attribute : "' . $attr . '"');
+        }
+
+        return $return;
     }
 
     public function __toString()
