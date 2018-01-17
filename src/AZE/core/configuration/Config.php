@@ -72,7 +72,7 @@ class Config implements \IteratorAggregate
 
     public function getIterator()
     {
-        return new \ArrayIterator($this->config->children);
+        return new \ArrayIterator($this->config->getChildren());
     }
 
     /**
@@ -81,14 +81,5 @@ class Config implements \IteratorAggregate
     public function __get($attr)
     {
         return $this->config->$attr;
-    }
-
-    /**
-     *
-     * @return Boolean
-     */
-    public function save()
-    {
-        return self::instance()->config->asXml(CONFIG_PATH);
     }
 }

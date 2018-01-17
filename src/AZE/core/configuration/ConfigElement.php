@@ -6,8 +6,8 @@ class ConfigElement implements \IteratorAggregate
     const XML = 1;
     const JSON = 2;
 
-    public $value = null;
-    public $children = null;
+    private $value = null;
+    private $children = null;
 
     public function __construct($datas = array(), $type = null)
     {
@@ -28,10 +28,10 @@ class ConfigElement implements \IteratorAggregate
     private function loadXml(\SimpleXMLElement $xml)
     {
         if ($xml->count()) {
-            $this->children = array();
+            $this->value = array();
             foreach ($xml->children() as $child) {
                 $configElement = new self($child, self::XML);
-                $this->children[$child->getName()] = $configElement->getValue();
+                $this->value[$child->getName()] = $configElement->getValue();
             }
         } else {
             $this->value = $xml . '';
@@ -74,6 +74,28 @@ class ConfigElement implements \IteratorAggregate
     public function getValue()
     {
         return !is_null($this->value) ? $this->value  : $this;
+    }
+
+
+    public function setValue($value)
+    {
+        return $this->value = $value;
+    }
+
+    /**
+     * @return array children
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * @param null $children
+     */
+    public function setChildren(array $children)
+    {
+        $this->children = $children;
     }
 
     public function __get($attr)
