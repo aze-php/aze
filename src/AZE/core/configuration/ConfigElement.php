@@ -80,4 +80,23 @@ class ConfigElement implements \IteratorAggregate
     {
         return !is_null($this->children) && isset($this->children[$attr]) ? $this->children[$attr] : null;
     }
+
+    public function __toString()
+    {
+        $string = $this->getValue();
+
+        if (!is_null($this->children)) {
+            $string = "ConfigElement:{";
+            if (is_array($this->children)) {
+                $sep = '';
+                foreach ($this->children as $attr=>$child) {
+                    $string .= $attr . ':' . $child;
+                    $sep = ',';
+                }
+            }
+            $string .= "}";
+        }
+
+        return $string;
+    }
 }
