@@ -1,4 +1,5 @@
 <?php
+
 namespace AZE\core;
 
 use AZE\exception\ModelListException;
@@ -34,12 +35,12 @@ class ModelList implements Iterator, \ArrayAccess
     /**
      * @var string $filterKey String use to filter the current ModelList by key
      */
-    static $filterKey = NULL;
+    public static $filterKey = null;
 
     /**
      * @var string $filterValuey String use to filter the current ModelList by value
      */
-    static $filterValue = NULL;
+    public static $filterValue = null;
 
     /**
      * @var array $indexedArray Array containing the list of attribute and their values
@@ -109,7 +110,7 @@ class ModelList implements Iterator, \ArrayAccess
      * @param int $offset
      * @param Model $value
      */
-    public function offsetSet($offset = null, $value)
+    public function offsetSet($offset = null, $value = null)
     {
         if (is_null($offset)) {
             $this->list[] = $value;
@@ -173,7 +174,7 @@ class ModelList implements Iterator, \ArrayAccess
      *
      * @return \AZE\core\ModelList
      */
-    public function filter($column = null, $filter)
+    public function filter($column = null, $filter = null)
     {
         $return = clone $this;
         $return->parentModel = &$this;
@@ -240,9 +241,7 @@ class ModelList implements Iterator, \ArrayAccess
             $separator = ', ';
         }
 
-        $return .= ']';
-
-        return $return;
+        return $return . ']';
     }
 
     /**
@@ -325,7 +324,6 @@ class ModelList implements Iterator, \ArrayAccess
                 $parameter = '(:' . $key . '_' . implode(',:' . $key . '_', $fields) . ')';
 
                 foreach ($fieldList as $columnKey => $field) {
-
                     $values[':' . $key . '_' . $columnKey] = $model->$field;
                 }
 
@@ -355,7 +353,8 @@ class ModelList implements Iterator, \ArrayAccess
 
         // Insert data into $tableName
         foreach ($requestList as $request) {
-            $valid &= (strlen($request['sql']) < $max_allowed_packet) && (($execution = DB::execute($request['sql'], $request['values'])) !== FALSE);
+            $valid &= strlen($request['sql']) < $max_allowed_packet;
+            $valid &= DB::execute($request['sql'], $request['values']) !== false;
         }
     }
 }

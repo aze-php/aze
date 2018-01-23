@@ -25,7 +25,7 @@ class ModelFilter
 
     /**
      * Constructor
-     * 
+     *
      * @param \AZE\core\ModelList $ml
      * @return \AZE\core\ModelFilter
      */
@@ -42,9 +42,9 @@ class ModelFilter
 
     /**
      * Init function
-     * 
+     *
      * Init properties of the filter
-     * 
+     *
      * @param \AZE\core\ModelList $ml
      * @return \AZE\core\ModelFilter
      */
@@ -55,7 +55,7 @@ class ModelFilter
 
     /**
      * Filter the ModelList by property value
-     * 
+     *
      * @param unknown $object
      * @return boolean
      */
@@ -63,8 +63,7 @@ class ModelFilter
     {
         $return = false;
         
-        if(property_exists($object, $this->columnFilter))
-        {
+        if (property_exists($object, $this->columnFilter)) {
             $column = $this->columnFilter;
             return call_user_func($this->filterFunction, $object->$column, $this->valueFilter);
         }
@@ -73,21 +72,20 @@ class ModelFilter
     }
 
     /**
-     * Reset the filter function 
-     * 
+     * Reset the filter function
+     *
      * @return boolean
      */
     private function resetFilterFunction()
     {
-        $this->filterFunction = function($value, $filter)
-            {
-                return $value==$filter;
-            };
+        $this->filterFunction = function ($value, $filter) {
+            return $value==$filter;
+        };
     }
 
     /**
      * Callback function use to filter on column name
-     * 
+     *
      * @param function $value Column name
      */
     private function filterColumnFunction($value)
@@ -96,8 +94,8 @@ class ModelFilter
     }
 
     /**
-     * Filter the ModelList on column name 
-     * 
+     * Filter the ModelList on column name
+     *
      * @param string $column Column name use to filter the ModelList
      * @return ModelFilter
      */
@@ -116,14 +114,12 @@ class ModelFilter
      */
     public function filter($value)
     {
-        if (!is_callable($value))
-        {
+        if (!is_callable($value)) {
             $this->valueFilter = $value;
-        }
-        else
-        {
+        } else {
             $this->filterFunction = $value;
         }
+
         $this->ml->list = array_filter($this->ml->list, array($this, 'filterValueFunction'));
 
         return $this;
@@ -131,7 +127,7 @@ class ModelFilter
 
     /**
      * ModelList getter
-     * 
+     *
      * @return ModelList
      */
     public function getModelList()

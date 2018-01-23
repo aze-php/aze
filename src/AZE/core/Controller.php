@@ -24,7 +24,7 @@ abstract class Controller
     private $callAfter = array();
 
     /**
-     * @param null $action    Action requested by user/url
+     * @param null $action Action requested by user/url
      */
     public function __construct($action = null)
     {
@@ -34,14 +34,14 @@ abstract class Controller
 
         // CallBefore call
         if (count($this->callBefore) > 0) {
-            foreach($this->callBefore as $callback){
+            foreach ($this->callBefore as $callback) {
                 call_user_func($callback, $this);
             }
         }
 
-        if (empty($this->action)){
+        if (empty($this->action)) {
             $this->main();
-        } else if (method_exists($this, $this->action)) {
+        } elseif (method_exists($this, $this->action)) {
             $reflection = new \ReflectionMethod($this, $this->action);
             if (!$reflection->isPublic()) {
                 $this->action();
@@ -65,12 +65,17 @@ abstract class Controller
      * @abstract
      * Default action, it's executed if no one is defined
      */
-    public function main(){}
+    public function main()
+    {
+    }
+
     /**
      * @abstract
      * Function used to manage actions requested
      */
-    public function action(){}
+    public function action()
+    {
+    }
 
 
     /**

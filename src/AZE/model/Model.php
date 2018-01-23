@@ -11,18 +11,16 @@ abstract class Model
     /**
      * @var string $primaryKey
      */
-    static $primaryKey = null;
+    public static $primaryKey = null;
 
     /**
      * Constructor
      * @param array $data
      */
-    public function __construct(array $data= array())
+    public function __construct(array $data = array())
     {
-        foreach ($this as $key=>$value)
-        {
-            if (isset($data[$key]))
-            {
+        foreach ($this as $key => $value) {
+            if (isset($data[$key])) {
                 $this->$key = $data[$key];
             }
         }
@@ -34,33 +32,17 @@ abstract class Model
      * Transform a Model into array
      * @return array
      */
-    public function to_array()
+    public function toArray()
     {
         $return = array();
 
-        foreach ($this as $key=>$value)
-        {
-            if (is_numeric($value) || is_string($value))
-            {
+        foreach ($this as $key => $value) {
+            if (is_numeric($value) || is_string($value)) {
                 $return[$key] = $value;
             }
         }
 
         return $return;
-    }
-
-    /**
-     * Return public properties of current object
-     * @return array
-     */
-    private function getPublicProperties($object)
-    {
-        $getFields = function($obj)
-        {
-            return get_object_vars($obj);
-        };
-
-        return $getFields($object);
     }
 
     /**
@@ -81,10 +63,8 @@ abstract class Model
     {
         $diff = array();
 
-        foreach ($this as $key=>$value)
-        {
-            if (!isset($object[$key]) || $this->$key !== $object->$key)
-            {
+        foreach ($this as $key => $value) {
+            if (!isset($object[$key]) || $this->$key !== $object->$key) {
                 $diff[$key] = $object[$key];
             }
         }
@@ -97,17 +77,15 @@ abstract class Model
      * @param string $field
      * @param string $id
      */
-    public static function delete_from_id($field = null, $id = null)
+    public static function deleteFromId($field = null, $id = null)
     {
         $class = get_called_class();
 
-        if(property_exists($class, $field) && !is_null($id))
-        {
+        if (property_exists($class, $field) && !is_null($id)) {
             $object = new $class();
             $object->$field = $id;
 
-            if (method_exists($object, 'delete'))
-            {
+            if (method_exists($object, 'delete')) {
                 $object->delete();
             }
         }

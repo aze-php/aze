@@ -6,6 +6,7 @@ class ControllerAction
     private $namespace = null;
     private $name = null;
     private $action = null;
+
     /**
      *
      * Constructor
@@ -49,8 +50,7 @@ class ControllerAction
         $return = false;
         if ($this->isValid()) {
             $class = $this . '';
-            if (class_exists($class))
-            {
+            if (class_exists($class)) {
                 $return = true;
                 $class = new $class($this->action);
             }

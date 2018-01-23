@@ -62,16 +62,53 @@ class Logger
         return $return;
     }
 
-    public static function var_dump(){ return call_user_func_array(array(Export::get("dump"), "dump"), func_get_args());}
-    public static function dump(){ return call_user_func_array(array('self', "var_dump"), func_get_args()); }
-    public static function varDump(){ return call_user_func_array(array('self', "var_dump"), func_get_args()); }
+    public static function dump()
+    {
+        return call_user_func_array(array('self', "dump"), func_get_args());
+    }
 
-    public static function debug(){ return call_user_func_array(array(Logger::get(), __FUNCTION__), func_get_args()); }
-    public static function info(){ return call_user_func_array(array(Logger::get(), __FUNCTION__), func_get_args()); }
-    public static function notice(){ return call_user_func_array(array(Logger::get(), __FUNCTION__), func_get_args()); }
-    public static function warning(){ return call_user_func_array(array(Logger::get(), __FUNCTION__), func_get_args()); }
-    public static function error(){ return call_user_func_array(array(Logger::get(), __FUNCTION__), func_get_args()); }
-    public static function critical(){ return call_user_func_array(array(Logger::get(), __FUNCTION__), func_get_args()); }
-    public static function alert(){ return call_user_func_array(array(Logger::get(), __FUNCTION__), func_get_args()); }
-    public static function emergency(){ return call_user_func_array(array(Logger::get(), __FUNCTION__), func_get_args()); }
+    public static function varDump()
+    {
+        return call_user_func_array(array('self', "dump"), func_get_args());
+    }
+
+    public static function debug()
+    {
+        return call_user_func_array(array(Logger::get(), __FUNCTION__), func_get_args());
+    }
+
+    public static function info()
+    {
+        return call_user_func_array(array(Logger::get(), __FUNCTION__), func_get_args());
+    }
+
+    public static function notice()
+    {
+        return call_user_func_array(array(Logger::get(), __FUNCTION__), func_get_args());
+    }
+
+    public static function warning()
+    {
+        return call_user_func_array(array(Logger::get(), __FUNCTION__), func_get_args());
+    }
+
+    public static function error()
+    {
+        return call_user_func_array(array(Logger::get(), __FUNCTION__), func_get_args());
+    }
+
+    public static function critical()
+    {
+        return call_user_func_array(array(Logger::get(), __FUNCTION__), func_get_args());
+    }
+
+    public static function alert()
+    {
+        return call_user_func_array(array(Logger::get(), __FUNCTION__), func_get_args());
+    }
+
+    public static function emergency()
+    {
+        return call_user_func_array(array(Logger::get(), __FUNCTION__), func_get_args());
+    }
 }

@@ -1,8 +1,6 @@
 <?php
 namespace AZE\core;
 
-use AZE\core\export\Export;
-
 class Debug
 {
     private static $activated = false;

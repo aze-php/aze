@@ -4,6 +4,7 @@ namespace AZE\core\request;
 class Parameter
 {
     private $name = null;
+
     private $value = null;
 
     private $default = null;
@@ -12,23 +13,19 @@ class Parameter
      *
      * Constructor
      */
-    private function __construct($name, $type="GET")
+    private function __construct($name, $type = "GET")
     {
         $this->name = $name;
 
         $this->type = $type;
-        if ($type == 'HEADER')
-        {
+        if ($type == 'HEADER') {
             $array = getallheaders();
-        }
-        else
-        {
+        } else {
             global ${'_' . $this->type};
             $array =& ${'_' . $this->type};
         }
 
-        if (isset($array[$this->name]))
-        {
+        if (isset($array[$this->name])) {
             $this->value = $array[$this->name];
         }
 
@@ -92,24 +89,16 @@ class Parameter
     public function validate($filter, $options = null)
     {
         $valid = false;
-        if (is_int($filter) || $filter instanceof Validate)
-        {
+        if (is_int($filter) || $filter instanceof Validate) {
             $valid = filter_var($this->value, $filter, $options);
-        }
-        else if (is_string($filter))
-        {
-            // Test if it's a Regex
-            if (preg_match("/^\/.+\/[a-z]*$/i",$filter))
-            {
+        } elseif (is_string($filter)) {
+            // StaticInit if it's a Regex
+            if (preg_match("/^\/.+\/[a-z]*$/i", $filter)) {
                 $valid = filter_var($filter, $this->value);
-            }
-            else if (filter_id($filter))
-            {
+            } elseif (filter_id($filter)) {
                 $valid = filter_var($this->value, filter_id($filter));
             }
-        }
-        else if (is_callable($filter))
-        {
+        } elseif (is_callable($filter)) {
             $valid = call_user_func($filter, $this->value);
         }
 

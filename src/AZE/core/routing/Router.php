@@ -19,7 +19,9 @@ class Router
     private static $routes = array();
 
     private static $defaultController = null;
+
     private static $namespace = null;
+
     private static $routingType = self::DYNAMIC;
 
     public function __construct()
@@ -119,55 +121,43 @@ class Router
         self::$defaultController = $defaultController;
     }
 
-
+    /**
+     * @param $type
+     */
     public static function setRoutingType($type)
     {
         self::$routingType = $type == self::DYNAMIC || $type === self::STRICT ? $type : self::DYNAMIC;
     }
 
+    /**
+     * @param $uri
+     * @return bool|void
+     */
     public function hasRoute(&$uri)
     {
         $find = false;
         $method = strtolower($_SERVER['REQUEST_METHOD']);
         // Pour chaque route du fichier de routing
-        foreach (self::$routes as $type=>$route) {
+        foreach (self::$routes as $type => $route) {
             if ($type === "any" || $type === $method) {
                 // On génère la requête regex de validation
-                $regex = '/^' . preg_replace(array('/{(\w+)}/', '/\//'), array('(.+?)', '\/'),
-                        $route->path) . '(\?.*){0,1}$/';
+                $regex = '/^' . preg_replace(
+                    array('/{(\w+)}/', '/\//'),
+                    array('(.+?)', '\/'),
+                    $route->path
+                ) . '(\?.*) {0,1}$/';
 
                 // Si elle correspond à l'URI actuelle
                 if (preg_match_all($regex, $uri, $matches)) {
-                    // On traite l'ensemble des paramètres mis en forme dans l'URI
-                    preg_match_all('/({)(\w+)(})/', $route->path, $keys);
-                    $keys = array_flip($keys[2]);
-                    $i = 1;
-                    foreach ($keys as $key => $val) {
-                        $_GET[$key] = $matches[$i][0];
-                        $i++;
+                    $this->defineGetParameters($route->path, $matches);
+
+                    $subFind = $this->computeRoute($route, $matches, $uri, $find);
+
+                    if ($subFind) {
+                        break;
                     }
-                    if ($route->alias) {
-                        $alias = str_replace(array_map(function ($e) {
-                            return '{' . $e . '}';
-                        }, array_keys($_GET)), $_GET, $route->alias);
-                        $uri = $alias;
-                    } else {
-                        if ($route->redirect) {
-                            header('location:' . $route->redirect . $matches[count($matches) - 1][0]);
-                        } else {
-                            $find = true;
-                            // On définit le controller et l'action correspondant à la route
-                            $this->controllerAction
-                                ->setNamespace(self::$namespace)
-                                ->setName($route->controller->name)
-                                ->setAction($route->controller->action . '');
-                            if (isset($route->controller->dir)) {
-                                $this->controllerAction
-                                    ->addSubDir($route->controller->dir . DIRECTORY_SEPARATOR);
-                            }
-                            break;
-                        }
-                    }
+
+                    $find |= $subFind;
                 }
             }
         }
@@ -197,10 +187,63 @@ class Router
 
             array_pop($directories);
             if (count($directories) > 0) {
-                $this->controllerAction->addSubDir(implode('\\', array_filter(Translator::translate($directories))) . '\\');
+                $this->controllerAction->addSubDir(
+                    implode(
+                        '\\',
+                        array_filter(Translator::translate($directories))
+                    ) . '\\'
+                );
             }
         }
 
         return $find;
+    }
+
+    /**
+     * @param $path
+     * @param array $matches
+     */
+    private function defineGetParameters($path, $matches = array())
+    {
+        // On traite l'ensemble des paramètres mis en forme dans l'URI
+        preg_match_all('/({)(\w+)(})/', $path, $keys);
+        $keys = array_flip($keys[2]);
+        $i = 1;
+        foreach ($keys as $key => $val) {
+            $_GET[$key] = $matches[$i][0];
+            $i++;
+        }
+    }
+
+    /**
+     * @param $route
+     * @param $matches
+     * @param $uri
+     * @param $find
+     */
+    private function computeRoute($route, $matches, &$uri, &$find)
+    {
+        if ($route->alias) {
+            $alias = str_replace(array_map(function ($e) {
+                return '{' . $e . '}';
+            }, array_keys($_GET)), $_GET, $route->alias);
+            $uri = $alias;
+        } else {
+            if ($route->redirect) {
+                header('location:' . $route->redirect . $matches[count($matches) - 1][0]);
+            } else {
+                $find = true;
+                // On définit le controller et l'action correspondant à la route
+                $this->controllerAction
+                    ->setNamespace(self::$namespace)
+                    ->setName($route->controller->name)
+                    ->setAction($route->controller->action . '');
+
+                if (isset($route->controller->dir)) {
+                    $this->controllerAction
+                        ->addSubDir($route->controller->dir . DIRECTORY_SEPARATOR);
+                }
+            }
+        }
     }
 }

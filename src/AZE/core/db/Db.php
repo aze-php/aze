@@ -1,4 +1,5 @@
 <?php
+
 namespace AZE\core\db;
 
 use \PDO as PDO;
@@ -51,7 +52,7 @@ class Db
     /**
      * Constructor
      */
-    function __construct()
+    private function __construct()
     {
         $this->db = null;
         $this->queryList = array();
@@ -215,8 +216,8 @@ class Db
      */
     public static function service($query, array $params = array())
     {
-        $timer = microtime(TRUE);
-        $return = NULL;
+        $timer = microtime(true);
+        $return = null;
         try {
             // Get PDO
             $pdo = Db::instance()->PDO();
@@ -231,11 +232,13 @@ class Db
         } catch (PDOException $ex) {
             Logger::exception($ex);
         }
+
         Db::instance()->queryList[] = array(
             $query,
             $params,
-            round((microtime(TRUE) - $timer) * 1000, 3) . 'ms'
+            round((microtime(true) - $timer) * 1000, 3) . 'ms'
         );
+
         return $return;
     }
 
@@ -389,7 +392,7 @@ class Db
             foreach ((array)$value as $k => $v) {
                 $value[$k] = self::secure($v);
             }
-        } else if (!is_numeric($value)) {
+        } elseif (!is_numeric($value)) {
             if (!mb_detect_encoding($value, self::$encoding, true)) {
                 $value = mb_convert_encoding($value, self::$encoding, mb_detect_encoding($value));
             }
@@ -399,15 +402,15 @@ class Db
         return $value;
     }
 
-    public static function secure_param($value)
+    public static function secureParam($value)
     {
         if (is_null($value)) {
             $value = 'NULL';
-        } else if (is_array($value) || is_object($value)) {
+        } elseif (is_array($value) || is_object($value)) {
             foreach ((array)$value as $k => $v) {
                 $value[$k] = self::secure($v);
             }
-        } else if (!is_numeric($value) && !mb_detect_encoding($value, self::$encoding, true)) {
+        } elseif (!is_numeric($value) && !mb_detect_encoding($value, self::$encoding, true)) {
             $value = mb_convert_encoding($value, self::$encoding, mb_detect_encoding($value));
         }
         return $value;
