@@ -78,7 +78,7 @@ class Session
      * Unset a data
      * @param string $key Datakey
      */
-    public static function _unset($key = '')
+    public static function unsetValue($key = '')
     {
         unset(self::instance()->sessions_vars[$key]);
         unset($_SESSION[$key]);
