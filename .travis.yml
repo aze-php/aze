@@ -17,6 +17,7 @@ before_script:
   - composer global require phploc/phploc
   - composer global require sebastian/phpcpd
   - composer global require squizlabs/php_codesniffer
+  - composer install
 
 script:
   - pdepend --summary-xml=pdepend-summary.xml ./src
