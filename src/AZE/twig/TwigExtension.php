@@ -17,10 +17,10 @@ class TwigExtension extends \Twig_Extension
     {
         $safe = array('is_safe' => array('html'));
         return array(
-            'ellapsed'=>new \Twig_Filter('ellapsed', array($this, 'ellapsed'), $safe),
-            'dumper'=>new \Twig_Filter('dumper', array($this, 'dumper'), $safe),
-            'getExports'=>new \Twig_Filter('getExports', array($this, 'getExports'), $safe),
-            'FormatBytes'=>new \Twig_Filter('FormatBytes', array($this, 'formatBytes'), $safe)
+            'ellapsed'=>new \Twig_Filter_Method($this, 'ellapsed'),
+            'dumper'=>new \Twig_Filter_Method($this, 'dumper', $safe),
+            'getExports'=>new \Twig_Filter_Method($this, 'getExports', $safe),
+            'FormatBytes'=>new \Twig_Filter_Method($this, 'formatBytes', $safe)
         );
     }
 
