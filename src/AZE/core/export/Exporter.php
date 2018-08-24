@@ -15,7 +15,6 @@ class Exporter
         $countArgs = func_num_args();
 
         if ($countArgs > 0) {
-
             $params = func_get_args();
 
             foreach ($params as $param) {

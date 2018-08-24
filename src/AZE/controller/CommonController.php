@@ -27,7 +27,7 @@ class CommonController extends Controller
         $this->twig->addJs('https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.1/components/prism-php.min.js');
         $this->twig->addJs('https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.1/components/prism-bash.min.js');
 
-        $this->addCallAfter(function($controller){
+        $this->addCallAfter(function ($controller) {
             $controller->twig->render('common.html');
         });
 

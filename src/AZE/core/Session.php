@@ -18,8 +18,7 @@ class Session
      */
     private function __construct()
     {
-        if (defined('SESSION_PATH'))
-        {
+        if (defined('SESSION_PATH')) {
             if (!file_exists(SESSION_PATH)) {
                 mkdir(SESSION_PATH, 0777, false);
             }
@@ -36,8 +35,7 @@ class Session
      */
     public static function instance()
     {
-        if (is_null(self::$instance))
-        {
+        if (is_null(self::$instance)) {
             self::$instance = new Session();
         }
 
@@ -80,7 +78,7 @@ class Session
      * Unset a data
      * @param string $key Datakey
      */
-    public static function _unset($key = '')
+    public static function unsetValue($key = '')
     {
         unset(self::instance()->sessions_vars[$key]);
         unset($_SESSION[$key]);

@@ -1,7 +1,6 @@
 <?php
 namespace AZE\core\export;
 
-
 class Export
 {
     private static $exporter = array();

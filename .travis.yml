@@ -13,14 +13,15 @@ matrix:
 
 before_script:
   - export PATH=~/.composer/vendor/bin:$PATH
-  - composer global require phpmd/phpmd
   - composer global require pdepend/pdepend
   - composer global require phploc/phploc
   - composer global require sebastian/phpcpd
-  - composer global show
+  - composer global require squizlabs/php_codesniffer
+  - composer install
 
 script:
   - pdepend --summary-xml=pdepend-summary.xml ./src
   - phpcpd ./src
-  - phpmd ./src text cleancode,codesize,unusedcode,naming
   - phploc ./src
+  - phpcs --standard=PSR2 src
+  - phpunit

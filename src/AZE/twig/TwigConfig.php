@@ -44,7 +44,8 @@ class TwigConfig
     private $autoescape = null;
 
     /**
-     * @var int A flag that indicates which optimizations to apply (default to -1 -- all optimizations are enabled; set it to 0 to disable).
+     * @var int A flag that indicates which optimizations to apply
+     * (default to -1 -- all optimizations are enabled; set it to 0 to disable).
      */
     private $optimizations = -1;
 

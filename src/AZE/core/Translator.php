@@ -4,7 +4,9 @@ namespace AZE\core;
 class Translator
 {
     private static $instance;
+
     private $langage = 'fr';
+
     private $multi_dictionnary = array();
 
     /**
@@ -16,6 +18,7 @@ class Translator
         if (!isset($lang) || empty($lang)) {
             $lang = 'fr';
         }
+
         $this->multi_dictionnary = array();
         $this->langage = $lang + "";
         $this->multi_dictionnary[$this->langage] = array();
@@ -27,7 +30,7 @@ class Translator
      */
     private static function instance()
     {
-        if(is_null(self::$instance)) {
+        if (is_null(self::$instance)) {
             self::$instance = new Translator();
         }
 
@@ -43,7 +46,7 @@ class Translator
     {
         self::instance()->langage = $lang;
 
-        if(!array_key_exists(self::instance()->langage, self::instance()->multi_dictionnary)){
+        if (!array_key_exists(self::instance()->langage, self::instance()->multi_dictionnary)) {
             self::instance()->multi_dictionnary[self::instance()->langage] = array();
         }
     }
@@ -65,15 +68,20 @@ class Translator
     {
         $single_world = !is_array($mixed);
         self::instance()->setLangage($lang);
-        $mixed = array_map(function($element){
-            $dictionnary = Translator::getEntries();
-            if(array_key_exists($element, $dictionnary)){
-                $element = $dictionnary[$element];
-            }
-            return $element;
-        }, (array)$mixed);
+        $mixed = array_map(
+            function ($element) {
+                $dictionnary = Translator::getEntries();
 
-        if($single_world){
+                if (array_key_exists($element, $dictionnary)) {
+                    $element = $dictionnary[$element];
+                }
+
+                return $element;
+            },
+            (array)$mixed
+        );
+
+        if ($single_world) {
             $mixed = array_filter($mixed);
             $mixed = reset($mixed);
         }

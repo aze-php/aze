@@ -1,4 +1,5 @@
 <?php
+
 namespace AZE\core\db;
 
 class DbService
@@ -19,13 +20,12 @@ class DbService
     protected $fetchType = \PDO::FETCH_OBJ;
 
 
-
     /**
      * Execute une requete avec ses paramêtres
      *
      * @param array $params Paramètres
      */
-    public final function request(array $params = array())
+    final public function request(array $params = array())
     {
         $this->statement = DB::service($this->query, $params);
     }
@@ -35,10 +35,9 @@ class DbService
      *
      * @return StdClass Ligne suivante formaté sous forme d'objet
      */
-    public final function next()
+    final public function next()
     {
-        if (!is_null($this->statement))
-        {
+        if (!is_null($this->statement)) {
             return $this->statement->fetch($this->fetchType);
         }
     }
@@ -48,10 +47,9 @@ class DbService
      *
      * @return StdClass Ligne suivante formatée sous forme d'objet
      */
-    public final function fetchAll()
+    final public function fetchAll()
     {
-        if (!is_null($this->statement))
-        {
+        if (!is_null($this->statement)) {
             return $this->statement->fetchAll();
         }
     }
@@ -63,10 +61,8 @@ class DbService
      */
     public function close()
     {
-        if (!is_null($this->statement))
-        {
+        if (!is_null($this->statement)) {
             return $this->statement->closeCursor();
         }
     }
-
 }

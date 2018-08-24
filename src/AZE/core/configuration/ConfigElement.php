@@ -46,7 +46,7 @@ class ConfigElement implements \IteratorAggregate
     {
         if (is_array($json) && count($json)) {
             $this->children = array();
-            foreach ($json as $key=>$node) {
+            foreach ($json as $key => $node) {
                 $configElement = new self($node, self::JSON);
                 $this->children[$key] = $configElement->getValue();
             }
@@ -59,7 +59,7 @@ class ConfigElement implements \IteratorAggregate
 
     public function merge(ConfigElement $newConfig)
     {
-        foreach ($newConfig as $name=>$child) {
+        foreach ($newConfig as $name => $child) {
             $this->children[$name] = $child;
             $this->value = null;
         }
@@ -75,7 +75,7 @@ class ConfigElement implements \IteratorAggregate
 
     public function getValue()
     {
-        return !is_null($this->value) ? $this->value  : $this;
+        return !is_null($this->value) ? $this->value : $this;
     }
 
 
@@ -120,7 +120,7 @@ class ConfigElement implements \IteratorAggregate
             $string = "ConfigElement:{";
             if (is_array($this->children)) {
                 $sep = '';
-                foreach ($this->children as $attr=>$child) {
+                foreach ($this->children as $attr => $child) {
                     $string .= $attr . ':' . $child;
                     $sep = ',';
                 }
