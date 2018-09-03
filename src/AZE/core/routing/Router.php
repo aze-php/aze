@@ -145,7 +145,7 @@ class Router
                     array('/{(\w+)}/', '/\//'),
                     array('(.+?)', '\/'),
                     $route->path
-                ) . '(\?.*) {0,1}$/';
+                ) . '(\?.*){0,1}$/';
 
                 // Si elle correspond à l'URI actuelle
                 if (preg_match_all($regex, $uri, $matches)) {
@@ -187,11 +187,11 @@ class Router
 
             array_pop($directories);
             if (count($directories) > 0) {
-                $this->controllerAction->addSubDir(
+                $this->controllerAction->addSubNamespace(
                     implode(
                         '\\',
                         array_filter(Translator::translate($directories))
-                    ) . '\\'
+                    )
                 );
             }
         }
@@ -241,7 +241,7 @@ class Router
 
                 if (isset($route->controller->dir)) {
                     $this->controllerAction
-                        ->addSubDir($route->controller->dir . DIRECTORY_SEPARATOR);
+                        ->addSubNamespace($route->controller->dir);
                 }
             }
         }

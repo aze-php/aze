@@ -28,6 +28,15 @@ class ControllerAction
         return $this;
     }
 
+    /**
+     * @param null $namespace
+     */
+    public function addSubNamespace($subNamespace)
+    {
+        $this->namespace .= '\\' . $subNamespace;
+        return $this;
+    }
+
     public function setName($name)
     {
         $this->name = $name;
