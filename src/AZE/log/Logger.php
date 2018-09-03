@@ -67,11 +67,6 @@ class Logger
         return call_user_func_array(array(Export::get("dump"), "dump"), func_get_args());
     }
 
-    public static function var_dump()
-    {
-        return call_user_func_array(array('self', "dump"), func_get_args());
-    }
-
     public static function varDump()
     {
         return call_user_func_array(array('self', "dump"), func_get_args());
