@@ -20,7 +20,7 @@ class Translator
         }
 
         $this->multi_dictionnary = array();
-        $this->langage = $lang + "";
+        $this->langage = $lang . "";
         $this->multi_dictionnary[$this->langage] = array();
     }
 
